@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#coding:utf-8
 
 # Copyright 2017 Google Inc. All Rights Reserved.
 #
@@ -152,6 +153,10 @@ def listen_print_loop(responses):
 
         else:
             print(transcript + overwrite_chars)
+            output_text = transcript + overwrite_chars + '\n'
+            f = open('output_text.txt', 'a')
+            f.write(output_text.encode('utf_8'))
+            f.close()
 
             # Exit recognition if any of the transcribed phrases could be
             # one of our keywords.
@@ -165,7 +170,8 @@ def listen_print_loop(responses):
 def main():
     # See http://g.co/cloud/speech/docs/languages
     # for a list of supported languages.
-    language_code = 'en-US'  # a BCP-47 language tag
+    # language_code = 'en-US'  # a BCP-47 language tag
+    language_code = 'ja-JP'
 
     client = speech.SpeechClient()
     config = types.RecognitionConfig(
@@ -184,7 +190,20 @@ def main():
         responses = client.streaming_recognize(streaming_config, requests)
 
         # Now, put the transcription responses to use.
-        listen_print_loop(responses)
+        try:
+            listen_print_loop(responses)
+        # except _Rendezvous:
+        # except INVALID_ARGUMENT:
+        except Exception, e:
+            # print type(e)  # the exception instance
+            # print e.args  # arguments stored in .args
+            # print(e.__class__.__name__)
+            # print e
+            # import pdb; pdb.set_trace()
+            # print(e.__class__.__name__)
+            # print('retry')
+            print(e)
+            main()
 
 
 if __name__ == '__main__':
