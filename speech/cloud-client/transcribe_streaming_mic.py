@@ -192,16 +192,7 @@ def main():
         # Now, put the transcription responses to use.
         try:
             listen_print_loop(responses)
-        # except _Rendezvous:
-        # except INVALID_ARGUMENT:
         except Exception, e:
-            # print type(e)  # the exception instance
-            # print e.args  # arguments stored in .args
-            # print(e.__class__.__name__)
-            # print e
-            # import pdb; pdb.set_trace()
-            # print(e.__class__.__name__)
-            # print('retry')
             print(e)
             main()
 
